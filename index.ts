@@ -87,7 +87,7 @@ function shouldSwapSmaller(num1: string, num2: string, deepComparison = false) {
 }
 
 function multiply(num1: string, num2: string) {
-  // TODO: this is unbearable. fix the bug, write s clean code that humans can understand...
+  // TODO: this is unbearable. fix the bug, write a clean code that humans can understand...
   if (num1 === "0" || num2 === "0") return "0";
 
   let product = "";
