@@ -13,14 +13,14 @@ function add(num1: string, num2: string) {
   let digitSum;
   for (let i = 0; i < num1.length; i++) {
     // get digit of num1 from right
-    a = parseInt(num1.charAt(num1.length - 1 - i));
+    a = +num1.charAt(num1.length - 1 - i);
     // get digit of num2 from right
-    b = parseInt(num2.charAt(num2.length - 1 - i));
-    // in case num2 is smaller than num1 -> 235 + 005 = 240
-    b = b ? b : 0;
+    b = +num2.charAt(num2.length - 1 - i);
+    b = b ? b : 0; // in case num2 is smaller than num1 -> 235 + 005 = 240
+
     temp = (carryNum + a + b).toString();
     digitSum = temp.charAt(temp.length - 1);
-    carryNum = parseInt(temp.substr(0, temp.length - 1));
+    carryNum = +temp.substr(0, temp.length - 1);
     carryNum = carryNum ? carryNum : 0;
 
     sum = i === num1.length - 1 ? temp + sum : digitSum + sum;
@@ -32,7 +32,7 @@ function add(num1: string, num2: string) {
 function subtract(num1: string, num2: string) {
   let difference = "";
 
-  let isNegative = false;
+  let isNegative = false; // indicator for negative sign
   if (shouldSwapSmaller(num1, num2, true)) {
     [num2, num1] = [num1, num2];
     isNegative = true;
@@ -44,9 +44,9 @@ function subtract(num1: string, num2: string) {
   let digitDifference;
   for (let i = 0; i < num1.length; i++) {
     // get digit of num1 from right
-    a = parseInt(num1.charAt(num1.length - 1 - i));
+    a = +num1.charAt(num1.length - 1 - i);
     // get digit of num2 from right
-    b = parseInt(num2.charAt(num2.length - 1 - i));
+    b = +num2.charAt(num2.length - 1 - i);
     b = b ? b : 0; // in case num2 is smaller than num1 -> 235 - 005 = 230
 
     if (carryNum !== 0) {
@@ -69,16 +69,19 @@ function subtract(num1: string, num2: string) {
 }
 
 function shouldSwapSmaller(num1: string, num2: string, deepComparison = false) {
-  const num1FirstDigit = parseInt(num1.charAt(num1.length - 1));
-  const num2FirstDigit = parseInt(num2.charAt(num2.length - 1));
-
   // if num2 length is bigger than num1 we return early and should swap
   if (num2.length > num1.length) {
     return true;
   }
 
-  // TODO: next line is buggy -> for in num2 from left to right. if even one digit is bigger return true
-  if (deepComparison && num2.length === num1.length && num2FirstDigit > num1FirstDigit) {
-    return true;
+  // deepComparison check which string as number is bigger
+  if (deepComparison && num2.length === num1.length) {
+    for (let i = 0; i < num2.length; i++) {
+      if (+num2[i] > +num1[i]) {
+        return true;
+      }
+    }
   }
+
+  return false;
 }
