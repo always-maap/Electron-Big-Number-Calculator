@@ -85,3 +85,32 @@ function shouldSwapSmaller(num1: string, num2: string, deepComparison = false) {
 
   return false;
 }
+
+function multiply(num1: string, num2: string) {
+  // TODO: this is unbearable. fix the bug, write s clean code that humans can understand...
+  if (num1 === "0" || num2 === "0") return "0";
+
+  let product = "";
+  let i_th = 0;
+  for (let i = 0; i < num2.length; i++) {
+    let sum = "";
+    for (let k = 0; k < i_th; k++) {
+      sum = sum + "0";
+    }
+    let carry = 0;
+    for (let j = 0; j < num1.length; j++) {
+      const num = carry + +num2[num2.length - i - 1] * +num1.charAt(num1.length - j - 1);
+      if (num > 10 && j !== num1.length - 1) {
+        carry = Math.floor(num / 10);
+        sum = num - carry * 10 + sum;
+      } else {
+        sum = num.toString() + sum;
+      }
+    }
+
+    i_th++;
+    product = add(sum, product);
+  }
+
+  return product;
+}
