@@ -87,7 +87,7 @@ function shouldSwapSmaller(num1: string, num2: string, deepComparison = false) {
 }
 
 function multiply(num1: string, num2: string) {
-  // TODO: this is unbearable. fix the bug, write a clean code that humans can understand...
+  // TODO: this is unbearable. write a clean code that humans can understand...
   if (num1 === "0" || num2 === "0") return "0";
 
   let product = "";
@@ -100,17 +100,23 @@ function multiply(num1: string, num2: string) {
     let carry = 0;
     for (let j = 0; j < num1.length; j++) {
       const num = carry + +num2[num2.length - i - 1] * +num1.charAt(num1.length - j - 1);
-      if (num > 10 && j !== num1.length - 1) {
+      if (num >= 10 && j !== num1.length - 1) {
         carry = Math.floor(num / 10);
         sum = num - carry * 10 + sum;
       } else {
         sum = num.toString() + sum;
+        carry = 0;
       }
     }
-
     i_th++;
     product = add(sum, product);
   }
 
   return product;
+}
+
+function divide() {
+  let quotient = "";
+  let reminder = "";
+  return quotient;
 }
