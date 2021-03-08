@@ -1,4 +1,4 @@
-function add(num1: string, num2: string) {
+export function add(num1: string, num2: string) {
   let sum = "";
 
   // check which number is greater, swap

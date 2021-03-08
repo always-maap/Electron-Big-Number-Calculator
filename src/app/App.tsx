@@ -1,42 +1,18 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles } from "./theme/globalStyles";
+import * as THEME from "./theme/theme";
+import Calculator from "./components/Calculator";
 
 const App = () => {
-  return (
-    <div>
-      <Input type="number" />
-      <Wrapper>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-      </Wrapper>
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
-      <button>0</button>
-    </div>
+  return (
+    <ThemeProvider theme={theme === "dark" ? THEME.dark : THEME.light}>
+      <GlobalStyles />
+      <Calculator />
+    </ThemeProvider>
   );
 };
-
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1rem);
-`;
-
-const Input = styled.input`
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  &[type="number"] {
-    -moz-appearance: textfield;
-  }
-`;
 
 export default App;
