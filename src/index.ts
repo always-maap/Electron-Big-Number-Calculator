@@ -11,7 +11,6 @@ const createWindow = (): void => {
     width: 400,
     resizable: false,
     fullscreenable: false,
-    backgroundColor: "#18191B",
   });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);

@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-export const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle<any>`
   html {
     height: 100%;
   }
@@ -11,6 +11,7 @@ export const GlobalStyles = createGlobalStyle`
     margin: 20px;
     padding: 0;
     font-family: sans-serif;
+    background-color: ${({ theme }) => theme.backgroundColor}; 
   }
 
   #root {
