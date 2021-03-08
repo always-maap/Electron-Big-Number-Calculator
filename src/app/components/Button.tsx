@@ -16,4 +16,7 @@ export const Button = styled.button<Props>`
   border-radius: 25px;
   border: none;
   outline: none;
+  &:active {
+    transform: translateY(2px);
+  }
 `;
