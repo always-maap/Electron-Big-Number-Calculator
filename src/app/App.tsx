@@ -4,7 +4,7 @@ import { GlobalStyles } from "./theme/globalStyles";
 import * as THEME from "./theme/theme";
 import Calculator from "./components/Calculator";
 
-export const toggleThemeContext = createContext<() => void>(undefined);
+export const toggleThemeContext = createContext<{ theme: "dark" | "light"; toggleTheme: () => void }>(undefined);
 
 const App = () => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -15,7 +15,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme === "dark" ? THEME.dark : THEME.light}>
-      <toggleThemeContext.Provider value={toggleTheme}>
+      <toggleThemeContext.Provider value={{ theme, toggleTheme }}>
         <GlobalStyles />
         <Calculator />
       </toggleThemeContext.Provider>

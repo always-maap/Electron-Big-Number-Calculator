@@ -155,8 +155,8 @@ export function phraseAnalysis(str: string): string {
 function calcString(str: string) {
   // TODO: rewrite whole function with better logic
   const noWsStr = str.replace(/\s/g, "");
+  const operands = noWsStr.split(/[+/*-]/g);
   const operators = noWsStr.replace(/[\d]/g, "").split("");
-  const operands = noWsStr.replace(/[+/*-]/g, "").split("");
 
   while (operators.includes("*")) {
     let opIndex = operators.indexOf("*");

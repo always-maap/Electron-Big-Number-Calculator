@@ -8,13 +8,7 @@ type Props = {
 };
 
 const CalculatorMonitor: FC<Props> = (props) => {
-  const context = useContext(toggleThemeContext);
-  return (
-    <>
-      <TextArea inputVal={props.inputVal} placeholder="0" value={props.inputVal} onChange={props.onchange} />
-      <ToggleTheme onClick={context}>toggle</ToggleTheme>
-    </>
-  );
+  return <TextArea inputVal={props.inputVal} placeholder="0" value={props.inputVal} onChange={props.onchange} />;
 };
 
 type TextAreaProps = {

@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 import CalculatorMonitor from "./CalculatorMonitor";
 import CalculatorButtons from "./CalulatorButtons";
 import styled from "styled-components";
 import { phraseAnalysis } from "../../lib";
+import { toggleThemeContext } from "../App";
 
 const Calculator = () => {
   const [inputVal, setInputVal] = useState("");
+  const themeContext = useContext(toggleThemeContext);
 
   const onResult = () => {
     setInputVal(phraseAnalysis(inputVal));
@@ -27,6 +29,11 @@ const Calculator = () => {
       }
       case "=": {
         onResult();
+        break;
+      }
+      case "☀️":
+      case "🌙": {
+        themeContext.toggleTheme();
         break;
       }
       default: {

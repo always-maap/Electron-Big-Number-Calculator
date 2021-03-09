@@ -7,6 +7,8 @@ export const dark = {
   equalButtonBackgroundColor: "#30C972",
   clearButtonBackgroundColor: "#2E1A1F",
   clearButtonTextColor: "#F64A53",
+  toggleThemeButtonBackgroundColor: "#EDEEEE",
+  advancedButtonBackgroundColor: "#3e5a99",
 };
 
 export const light = {
@@ -18,4 +20,6 @@ export const light = {
   equalButtonBackgroundColor: "#30C972",
   clearButtonBackgroundColor: "#F8EBED",
   clearButtonTextColor: "#F64A53",
+  toggleThemeButtonBackgroundColor: "#212527",
+  advancedButtonBackgroundColor: "#3e5a99",
 };
