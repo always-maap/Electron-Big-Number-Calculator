@@ -2,16 +2,13 @@ import React, { ChangeEvent, useState } from "react";
 import CalculatorMonitor from "./CalculatorMonitor";
 import CalculatorButtons from "./CalulatorButtons";
 import styled from "styled-components";
-import { add } from "../../lib";
+import { phraseAnalysis } from "../../lib";
 
 const Calculator = () => {
   const [inputVal, setInputVal] = useState("");
 
   const onResult = () => {
-    onClear();
-    const inp = inputVal.replace(/\s/g, "");
-    const t = inp.split("+");
-    setInputVal(add(t[0], t[1]));
+    setInputVal(phraseAnalysis(inputVal));
   };
 
   const onchange = (e: ChangeEvent<HTMLTextAreaElement>) => {

@@ -19,7 +19,7 @@ const CalculatorButtons: FC<Props> = (props) => {
     { value: "1" },
     { value: "2" },
     { value: "3" },
-    { value: "×", backgroundColor: theme.operationsButtonBackgroundColor, textColor: theme.operationsButtonTextColor },
+    { value: "*", backgroundColor: theme.operationsButtonBackgroundColor, textColor: theme.operationsButtonTextColor },
     { value: "4" },
     { value: "5" },
     { value: "6" },

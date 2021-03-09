@@ -120,3 +120,55 @@ function divide() {
   let reminder = "";
   return quotient;
 }
+
+export function phraseAnalysis(str: string): string {
+  // TODO: rewrite whole function with better logic and fewer if statements
+  if (!str.match(/[+/*(-)]/g)) return str;
+  let strArr = str.split("").filter((i) => i !== " ");
+
+  let startIdx = 0;
+  let endIdx = 0;
+  let subStr = "";
+  for (let i = 0; i < strArr.length; i++) {
+    if (strArr[i] === ")") {
+      endIdx = i;
+      break;
+    }
+    if (strArr[i] === "(") {
+      startIdx = i;
+      subStr = "";
+    } else {
+      subStr += strArr[i];
+    }
+  }
+  const calculated = calcString(subStr);
+  strArr.splice(startIdx, endIdx - startIdx + 1, calculated);
+  const thing = strArr.join("");
+
+  if (str.indexOf("(") === -1) {
+    return calcString(str);
+  } else {
+    return phraseAnalysis(thing);
+  }
+}
+
+function calcString(str: string) {
+  // TODO: rewrite whole function with better logic
+  const noWsStr = str.replace(/\s/g, "");
+  const operators = noWsStr.replace(/[\d]/g, "").split("");
+  const operands = noWsStr.replace(/[+/*-]/g, "").split("");
+
+  while (operators.includes("*")) {
+    let opIndex = operators.indexOf("*");
+    operands.splice(opIndex, 2, multiply(operands[opIndex], operands[opIndex + 1]));
+    operators.splice(opIndex, 1);
+  }
+
+  let result = operands[0];
+  for (let i = 0; i < operators.length; i++) {
+    result = add(result, operands[i + 1]);
+  }
+  return result;
+}
+
+// What am I doing with my life !!?
