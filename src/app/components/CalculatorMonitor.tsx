@@ -1,6 +1,5 @@
-import React, { ChangeEvent, FC, useContext } from "react";
+import React, { ChangeEvent, FC } from "react";
 import styled from "styled-components";
-import { toggleThemeContext } from "../App";
 
 type Props = {
   inputVal: string;
@@ -25,12 +24,6 @@ const TextArea = styled.textarea<TextAreaProps>`
   font-size: ${({ inputVal }) => (inputVal.length < 10 ? "32px" : inputVal.length < 20 ? "26px" : "16px")};
   color: ${({ theme }) => theme.buttonsTextColor};
   resize: none;
-`;
-
-const ToggleTheme = styled.button`
-  position: absolute;
-  top: 15px;
-  right: 15px;
 `;
 
 export default CalculatorMonitor;

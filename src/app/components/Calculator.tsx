@@ -3,7 +3,7 @@ import CalculatorMonitor from "./CalculatorMonitor";
 import CalculatorButtons from "./CalulatorButtons";
 import styled from "styled-components";
 import { phraseAnalysis } from "../../lib";
-import { toggleThemeContext } from "../App";
+import { toggleThemeContext } from "../providers/ToggleThemeProvider";
 
 const Calculator = () => {
   const [inputVal, setInputVal] = useState("");

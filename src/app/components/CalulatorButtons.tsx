@@ -3,7 +3,7 @@ import { Button } from "./Button";
 import styled from "styled-components";
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { toggleThemeContext } from "../App";
+import { toggleThemeContext } from "../providers/ToggleThemeProvider";
 
 type Props = {
   onClick(val: string): void;
