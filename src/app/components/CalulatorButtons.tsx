@@ -3,14 +3,14 @@ import { Button } from "./Button";
 import styled from "styled-components";
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { toggleThemeContext } from "../providers/ToggleThemeProvider";
+import { ToggleThemeContext } from "../providers/ToggleThemeProvider";
 
 type Props = {
   onClick(val: string): void;
 };
 
 const CalculatorButtons: FC<Props> = (props) => {
-  const themeContext = useContext(toggleThemeContext);
+  const themeContext = useContext(ToggleThemeContext);
   const theme = useContext(ThemeContext);
 
   const buttons = [

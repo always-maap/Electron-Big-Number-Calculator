@@ -3,11 +3,14 @@ import CalculatorMonitor from "./CalculatorMonitor";
 import CalculatorButtons from "./CalulatorButtons";
 import styled from "styled-components";
 import { phraseAnalysis } from "../../lib";
-import { toggleThemeContext } from "../providers/ToggleThemeProvider";
+import { ToggleThemeContext } from "../providers/ToggleThemeProvider";
+import { ToggleIsAdvancedContext } from "../providers/ToggleAdvancedProvider";
+import AdvancedCalculator from "./AdvancedCalculator";
 
 const Calculator = () => {
   const [inputVal, setInputVal] = useState("");
-  const themeContext = useContext(toggleThemeContext);
+  const themeContext = useContext(ToggleThemeContext);
+  const advancedContext = useContext(ToggleIsAdvancedContext);
 
   const onResult = () => {
     setInputVal(phraseAnalysis(inputVal));
@@ -36,6 +39,10 @@ const Calculator = () => {
         themeContext.toggleTheme();
         break;
       }
+      case "🧮": {
+        advancedContext.toggleIsAdvanced();
+        break;
+      }
       default: {
         setInputVal((prevState) => prevState + val);
         break;
@@ -45,10 +52,16 @@ const Calculator = () => {
 
   return (
     <Wrapper>
-      <MonitorWrapper>
-        <CalculatorMonitor inputVal={inputVal} onchange={onchange} />
-      </MonitorWrapper>
-      <CalculatorButtons onClick={onClick} />
+      {advancedContext.isAdvanced ? (
+        <AdvancedCalculator />
+      ) : (
+        <>
+          <MonitorWrapper>
+            <CalculatorMonitor inputVal={inputVal} onchange={onchange} />
+          </MonitorWrapper>
+          <CalculatorButtons onClick={onClick} />
+        </>
+      )}
     </Wrapper>
   );
 };

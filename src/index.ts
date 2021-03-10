@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
 if (require("electron-squirrel-startup")) {
@@ -11,9 +11,17 @@ const createWindow = (): void => {
     width: 400,
     resizable: false,
     fullscreenable: false,
+    webPreferences: {
+      contextIsolation: false,
+      nodeIntegration: true,
+    },
   });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  ipcMain.on("resizeWindow", (event, isAdvanced: boolean) => {
+    isAdvanced ? mainWindow.setSize(400, 600, true) : mainWindow.setSize(600, 600, true);
+  });
 };
 
 app.on("ready", createWindow);
