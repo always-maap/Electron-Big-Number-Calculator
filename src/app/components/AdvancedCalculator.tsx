@@ -4,10 +4,9 @@ import styled, { ThemeContext } from "styled-components";
 import { Button } from "./Button";
 import Integral from "./Integral";
 import Graph from "./Graph";
-import { ToggleThemeContext } from "../providers/ToggleThemeProvider";
+import ToggleThemeButton from "./ToggleThemeButton";
 
 const AdvancedCalculator = () => {
-  const themeContext = useContext(ToggleThemeContext);
   const theme = useContext(ThemeContext);
   const [currentTab, setCurrentTab] = useState<"integral" | "graph">("integral");
   const advancedContext = useContext(ToggleIsAdvancedContext);
@@ -16,9 +15,7 @@ const AdvancedCalculator = () => {
     <Wrapper>
       {currentTab === "integral" ? <Integral /> : <Graph />}
       <Controllers>
-        <Button onClick={themeContext.toggleTheme} backgroundColor={theme.toggleThemeButtonBackgroundColor}>
-          {themeContext.theme === "dark" ? "☀️" : "🌙"}
-        </Button>
+        <ToggleThemeButton />
         <Button onClick={() => setCurrentTab("integral")}>∫</Button>
         <Button onClick={() => setCurrentTab("graph")}>📊</Button>
         <Button backgroundColor={theme.advancedButtonBackgroundColor} onClick={advancedContext.toggleIsAdvanced}>
