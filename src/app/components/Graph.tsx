@@ -35,18 +35,17 @@ const Graph = () => {
     ctx.beginPath();
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = "#ff0000";
-    // TODO: work with user input & fix distance from y axis
+    // TODO: work with user input
 
-    ctx.moveTo(200, 200);
     for (let i = 0; i < 25; i++) {
-      const y = Math.pow(Math.sin(i), 2) + Math.pow(Math.cos(i), 2);
+      const y = Math.pow(i - 1, 2) - 2;
       ctx.lineTo(200 + i * 10, 200 - y * 10);
     }
     ctx.stroke();
 
-    ctx.moveTo(200, 200);
-    for (let i = 0; i < 100; i++) {
-      const y = Math.pow(Math.sin(-i), 2) + Math.pow(Math.cos(-i), 2);
+    ctx.beginPath();
+    for (let i = 0; i < 25; i++) {
+      const y = Math.pow(-i - 1, 2) - 2;
       ctx.lineTo(200 - i * 10, 200 - y * 10);
     }
 
