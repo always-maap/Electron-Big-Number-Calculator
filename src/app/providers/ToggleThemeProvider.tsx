@@ -9,7 +9,7 @@ type Props = {
 export const ToggleThemeContext = createContext<{ theme: "dark" | "light"; toggleTheme: () => void }>(undefined);
 
 const ToggleThemeProvider: FC<Props> = (props) => {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("light");
 
   const toggleTheme = () => {
     setTheme((prevState) => (prevState === "dark" ? "light" : "dark"));
