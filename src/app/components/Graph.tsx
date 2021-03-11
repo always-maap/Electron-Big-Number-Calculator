@@ -35,17 +35,18 @@ const Graph = () => {
     ctx.beginPath();
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = "#ff0000";
-    // TODO: work with user input
 
     for (let i = 0; i < 25; i++) {
-      const y = Math.pow(i - 1, 2) - 2;
+      const expression = inputVal.replace("x", String(i));
+      const y = eval(expression);
       ctx.lineTo(200 + i * 10, 200 - y * 10);
     }
     ctx.stroke();
 
     ctx.beginPath();
     for (let i = 0; i < 25; i++) {
-      const y = Math.pow(-i - 1, 2) - 2;
+      const expression = inputVal.replace("x", String(-i));
+      const y = eval(expression);
       ctx.lineTo(200 - i * 10, 200 - y * 10);
     }
 
