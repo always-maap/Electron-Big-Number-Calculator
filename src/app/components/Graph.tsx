@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const Graph = () => {
+  const [inputVal, setInputVal] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const Graph = () => {
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = "#ff0000";
     // TODO: work with user input & fix distance from y axis
+
     ctx.moveTo(200, 200);
     for (let i = 0; i < 25; i++) {
       const y = Math.pow(Math.sin(i), 2) + Math.pow(Math.cos(i), 2);
@@ -51,10 +53,24 @@ const Graph = () => {
     ctx.stroke();
   };
 
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputVal(e.target.value);
+  };
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    draw();
+    setInputVal("");
+  };
+
   return (
     <Wrapper>
       <canvas width={400} height={400} ref={canvasRef} />
-      y = <input /> <button onClick={draw}>draw</button>
+      <InputWrapper>
+        <form onSubmit={onSubmit}>
+          y = <Input value={inputVal} onChange={onChange} />
+        </form>
+      </InputWrapper>
     </Wrapper>
   );
 };
@@ -63,6 +79,18 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
+  height: 100%;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const Input = styled.input`
+  height: 19px;
 `;
 
 export default Graph;
