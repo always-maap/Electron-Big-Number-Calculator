@@ -40,7 +40,7 @@ const Graph = () => {
 
     ctx.beginPath();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = COLORS[Math.floor(Math.random() * 10)];
+    ctx.strokeStyle = COLORS[Math.floor(Math.random() * 8)];
 
     for (let i = 0; i < 25; i++) {
       const expression = inputVal.replace("x", String(i));
