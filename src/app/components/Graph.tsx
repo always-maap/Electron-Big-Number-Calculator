@@ -9,7 +9,14 @@ const COLORS = [
 
 const Graph = () => {
   const [inputVal, setInputVal] = useState("");
+  const [currentGraphs, setCurrentGraphs] = useState<{ equation: string; color: string }[]>([]);
+  const [currentScale, setCurrentScale] = useState(1);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const clearCanvas = () => {
+    setCurrentGraphs([]);
+    drawGrid();
+  };
 
   const drawGrid = () => {
     // TODO: dark mode colors
@@ -47,19 +54,18 @@ const Graph = () => {
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
     ctx.translate(200, 200);
-    ctx.scale(2, 2);
     drawGrid();
   }, []);
 
-  const draw = () => {
+  const draw = (color: string, equation?: string) => {
     const ctx = canvasRef.current.getContext("2d");
-
+    const thing = equation ? equation : inputVal;
     ctx.beginPath();
     ctx.lineWidth = 1.5;
-    ctx.strokeStyle = COLORS[Math.floor(Math.random() * 8)];
+    ctx.strokeStyle = color;
     // positive test cases
     for (let i = 0.1; i < 25; i += 0.1) {
-      const expression = inputVal.replace("x", String(i));
+      const expression = thing.replace("x", String(i));
       const y = eval(expression);
       ctx.lineTo(i * 10, -y * 10);
     }
@@ -68,7 +74,7 @@ const Graph = () => {
     // negative test cases
     ctx.beginPath();
     for (let i = 0.1; i < 25; i += 0.1) {
-      const convertNegative = inputVal.replace("-x", "-1*x");
+      const convertNegative = thing.replace("-x", "-1*x");
       const expression = convertNegative.replace("x", String(-i));
       const y = eval(expression);
       ctx.lineTo(-i * 10, -y * 10);
@@ -77,24 +83,41 @@ const Graph = () => {
     ctx.closePath();
   };
 
+  const magnify = () => {
+    // the idea of scaling is redrawing the graphs with scaled canvas. not the best but good for now
+    const ctx = canvasRef.current.getContext("2d");
+    const scale = currentScale === 1 ? 2 : currentScale === 2 ? 0.5 : 2;
+    setCurrentScale(scale);
+    ctx.scale(scale, scale);
+    drawGrid();
+    currentGraphs.forEach((graph) => draw(graph.color, graph.equation));
+  };
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value);
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    draw();
+    const color = COLORS[Math.floor(Math.random() * 8)];
+    setCurrentGraphs((prevState) => [...prevState, { color, equation: inputVal }]);
+    draw(color);
     setInputVal("");
   };
 
   return (
     <Wrapper>
-      <canvas width={400} height={400} ref={canvasRef} />
+      <CanvasWrapper>
+        <canvas width={400} height={400} ref={canvasRef} />
+        <Controllers>
+          <button onClick={clearCanvas}>🧻</button>
+          <button onClick={magnify}>🔎</button>
+        </Controllers>
+      </CanvasWrapper>
       <InputWrapper>
         <form onSubmit={onSubmit}>
           y = <Input value={inputVal} onChange={onChange} />
         </form>
-        <button onClick={drawGrid}>clear</button>
       </InputWrapper>
     </Wrapper>
   );
@@ -106,6 +129,18 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-around;
   height: 100%;
+`;
+
+const Controllers = styled.div`
+  position: absolute;
+  top: 0;
+  right: -33px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const CanvasWrapper = styled.div`
+  position: relative;
 `;
 
 const InputWrapper = styled.div`
