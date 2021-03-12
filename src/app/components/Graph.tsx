@@ -11,8 +11,14 @@ const Graph = () => {
   const [inputVal, setInputVal] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
+  const drawGrid = () => {
     const ctx = canvasRef.current.getContext("2d");
+    // clear canvas
+    ctx.beginPath();
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 0.2;
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
     // vertical base
     ctx.moveTo(200, 0);
     ctx.lineTo(200, 400);
@@ -31,9 +37,11 @@ const Graph = () => {
       ctx.moveTo(0, i);
       ctx.lineTo(400, i);
     }
-    ctx.lineWidth = 0.2;
+
     ctx.stroke();
-  }, []);
+  };
+
+  useEffect(drawGrid, []);
 
   const draw = () => {
     const ctx = canvasRef.current.getContext("2d");
@@ -76,6 +84,7 @@ const Graph = () => {
         <form onSubmit={onSubmit}>
           y = <Input value={inputVal} onChange={onChange} />
         </form>
+        <button onClick={drawGrid}>clear</button>
       </InputWrapper>
     </Wrapper>
   );
