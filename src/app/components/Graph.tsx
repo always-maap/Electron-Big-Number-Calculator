@@ -14,35 +14,42 @@ const Graph = () => {
   const drawGrid = () => {
     // TODO: dark mode colors
     const ctx = canvasRef.current.getContext("2d");
-    // clear canvas
     ctx.beginPath();
+
+    ctx.arc(0, 0, 1.5, 0, Math.PI * 2);
+    // clear canvas
     ctx.strokeStyle = "#000000";
     ctx.lineWidth = 0.2;
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-
+    ctx.clearRect(-200, -200, canvasRef.current.width, canvasRef.current.height);
     // vertical base
-    ctx.moveTo(200, 0);
-    ctx.lineTo(200, 400);
+    ctx.moveTo(0, -200);
+    ctx.lineTo(0, 200);
     // horizontal base
-    ctx.moveTo(0, 200);
-    ctx.lineTo(400, 200);
+    ctx.moveTo(-200, 0);
+    ctx.lineTo(200, 0);
     ctx.stroke();
 
     // grid vertical
-    for (let i = 0; i < 400; i += 10) {
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i, 400);
+    for (let i = -200; i <= 200; i += 10) {
+      ctx.moveTo(i, -200);
+      ctx.lineTo(i, 200);
     }
     // grid horizontal
-    for (let i = 0; i < 400; i += 10) {
-      ctx.moveTo(0, i);
-      ctx.lineTo(400, i);
+    for (let i = -200; i <= 200; i += 10) {
+      ctx.moveTo(-200, i);
+      ctx.lineTo(200, i);
     }
 
     ctx.stroke();
+    ctx.closePath();
   };
 
-  useEffect(drawGrid, []);
+  useEffect(() => {
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.translate(200, 200);
+    ctx.scale(2, 2);
+    drawGrid();
+  }, []);
 
   const draw = () => {
     const ctx = canvasRef.current.getContext("2d");
@@ -50,23 +57,24 @@ const Graph = () => {
     ctx.beginPath();
     ctx.lineWidth = 1.5;
     ctx.strokeStyle = COLORS[Math.floor(Math.random() * 8)];
-
+    // positive test cases
     for (let i = 0.1; i < 25; i += 0.1) {
       const expression = inputVal.replace("x", String(i));
       const y = eval(expression);
-      ctx.lineTo(200 + i * 10, 200 - y * 10);
+      ctx.lineTo(i * 10, -y * 10);
     }
     ctx.stroke();
-
+    ctx.closePath();
+    // negative test cases
     ctx.beginPath();
     for (let i = 0.1; i < 25; i += 0.1) {
       const convertNegative = inputVal.replace("-x", "-1*x");
       const expression = convertNegative.replace("x", String(-i));
       const y = eval(expression);
-      ctx.lineTo(200 - i * 10, 200 - y * 10);
+      ctx.lineTo(-i * 10, -y * 10);
     }
-
     ctx.stroke();
+    ctx.closePath();
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
