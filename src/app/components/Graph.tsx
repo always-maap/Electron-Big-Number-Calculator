@@ -1,6 +1,12 @@
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
+// prettier-ignore
+const COLORS = [
+  "#6aff00", "#ff7700", "#ff0000", "#ffdd00",
+  "#c800ff", "#0040ff", "#ff7700", "#00ffc4"
+];
+
 const Graph = () => {
   const [inputVal, setInputVal] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,8 +39,8 @@ const Graph = () => {
     const ctx = canvasRef.current.getContext("2d");
 
     ctx.beginPath();
-    ctx.lineWidth = 0.5;
-    ctx.strokeStyle = "#ff0000";
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = COLORS[Math.floor(Math.random() * 10)];
 
     for (let i = 0; i < 25; i++) {
       const expression = inputVal.replace("x", String(i));
