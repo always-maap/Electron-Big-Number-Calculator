@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 // prettier-ignore
 const COLORS = [
-  "#6aff00", "#ff7700", "#ff0000", "#ffdd00",
+  "#000000", "#ff7700", "#ff0000", "#797230",
   "#c800ff", "#0040ff", "#ff7700", "#00ffc4"
 ];
 
@@ -12,6 +12,7 @@ const Graph = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const drawGrid = () => {
+    // TODO: dark mode colors
     const ctx = canvasRef.current.getContext("2d");
     // clear canvas
     ctx.beginPath();
@@ -47,10 +48,10 @@ const Graph = () => {
     const ctx = canvasRef.current.getContext("2d");
 
     ctx.beginPath();
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1.5;
     ctx.strokeStyle = COLORS[Math.floor(Math.random() * 8)];
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0.1; i < 25; i += 0.1) {
       const expression = inputVal.replace("x", String(i));
       const y = eval(expression);
       ctx.lineTo(200 + i * 10, 200 - y * 10);
@@ -58,8 +59,9 @@ const Graph = () => {
     ctx.stroke();
 
     ctx.beginPath();
-    for (let i = 0; i < 25; i++) {
-      const expression = inputVal.replace("x", String(-i));
+    for (let i = 0.1; i < 25; i += 0.1) {
+      const convertNegative = inputVal.replace("-x", "-1*x");
+      const expression = convertNegative.replace("x", String(-i));
       const y = eval(expression);
       ctx.lineTo(200 - i * 10, 200 - y * 10);
     }
