@@ -8,7 +8,8 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts .",
-    "dev": "nodemon src/lib/index.ts"
+    "dev": "nodemon src/lib/index.ts",
+    "test": "jest"
   },
   "keywords": [],
   "author": {
@@ -62,6 +63,9 @@
     }
   },
   "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/preset-typescript": "^7.13.0",
     "@electron-forge/cli": "^6.0.0-beta.54",
     "@electron-forge/maker-deb": "^6.0.0-beta.54",
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
@@ -69,16 +73,19 @@
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "@electron-forge/plugin-webpack": "6.0.0-beta.54",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@types/jest": "^26.0.20",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.1",
     "@types/styled-components": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
+    "babel-jest": "^26.6.3",
     "css-loader": "^4.2.1",
     "electron": "12.0.0",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.20.0",
     "fork-ts-checker-webpack-plugin": "^5.0.14",
+    "jest": "^26.6.3",
     "node-loader": "^1.0.1",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
