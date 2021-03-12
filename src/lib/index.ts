@@ -123,7 +123,7 @@ function divide() {
 
 export function phraseAnalysis(str: string): string {
   // TODO: rewrite whole function with better logic and fewer if statements
-  if (!str.match(/[+/*(-)]/g)) return str;
+  if (!str.match(/[+/*()-]/g)) return str;
   let strArr = str.split("").filter((i) => i !== " ");
 
   let startIdx = 0;
@@ -166,7 +166,7 @@ function calcString(str: string) {
 
   let result = operands[0];
   for (let i = 0; i < operators.length; i++) {
-    result = add(result, operands[i + 1]);
+    result = operators[i] === "+" ? add(result, operands[i + 1]) : subtract(result, operands[i + 1]);
   }
   return result;
 }
