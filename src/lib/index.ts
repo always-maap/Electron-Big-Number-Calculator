@@ -125,7 +125,7 @@ function divide(num: string, divisor: string, shouldReturnReminder = false) {
   const isDivisorBigger = isSecondBigger(num, divisor, true);
   if (isDivisorBigger) {
     quotient = "0";
-    return shouldReturnReminder ? [quotient, num] : quotient;
+    return shouldReturnReminder ? `q:${quotient}, r:${originalNum}` : quotient;
   }
 
   let reminder = "0";
@@ -147,7 +147,7 @@ function divide(num: string, divisor: string, shouldReturnReminder = false) {
     reminder = subtract(temp, multiply(divisor, factor.toString()));
     num = reminder !== "0" ? reminder + num.slice(idx + 1) : num.slice(idx + 1);
   }
-  return shouldReturnReminder ? [quotient, reminder] : quotient;
+  return shouldReturnReminder ? `q:${quotient}, r:${reminder}` : quotient;
 }
 
 export function phraseAnalysis(str: string): string {
@@ -195,7 +195,7 @@ function calcString(str: string) {
 
   while (operators.includes("/")) {
     let opIndex = operators.indexOf("/");
-    operands.splice(opIndex, 2, <string>divide(operands[opIndex], operands[opIndex + 1], true));
+    operands.splice(opIndex, 2, divide(operands[opIndex], operands[opIndex + 1], true));
     operators.splice(opIndex, 1);
   }
 
