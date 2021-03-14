@@ -2,7 +2,7 @@ function add(num1: string, num2: string) {
   let sum = "";
 
   // check which number is greater, swap
-  if (shouldSwapSmaller(num1, num2)) {
+  if (isSecondBigger(num1, num2)) {
     [num2, num1] = [num1, num2];
   }
 
@@ -33,7 +33,7 @@ function subtract(num1: string, num2: string) {
   let difference = "";
 
   let isNegative = false; // indicator for negative sign
-  if (shouldSwapSmaller(num1, num2, true)) {
+  if (isSecondBigger(num1, num2, true)) {
     [num2, num1] = [num1, num2];
     isNegative = true;
   }
@@ -60,15 +60,15 @@ function subtract(num1: string, num2: string) {
     }
 
     digitDifference = (a - b).toString();
-
-    // TODO: fix adding 0 at the end of number
     difference = digitDifference + difference;
   }
 
+  const removedZeroDifference = difference.replace(/^0+/, "");
+  difference = removedZeroDifference === "" ? "0" : removedZeroDifference;
   return isNegative ? `-${difference}` : difference;
 }
 
-function shouldSwapSmaller(num1: string, num2: string, deepComparison = false) {
+function isSecondBigger(num1: string, num2: string, deepComparison = false) {
   // if num2 length is bigger than num1 we return early and should swap
   if (num2.length > num1.length) {
     return true;
@@ -79,6 +79,8 @@ function shouldSwapSmaller(num1: string, num2: string, deepComparison = false) {
     for (let i = 0; i < num2.length; i++) {
       if (+num2[i] > +num1[i]) {
         return true;
+      } else if (+num2[i] < +num1[i]) {
+        return false;
       }
     }
   }
@@ -115,10 +117,37 @@ function multiply(num1: string, num2: string) {
   return product;
 }
 
-function divide() {
+function divide(num: string, divisor: string, shouldReturnReminder = false) {
+  // TODO: fix 90/3 bug
+  let originalNum = num;
   let quotient = "";
-  let reminder = "";
-  return quotient;
+
+  const isDivisorBigger = isSecondBigger(num, divisor, true);
+  if (isDivisorBigger) {
+    quotient = "0";
+    return shouldReturnReminder ? [quotient, num] : quotient;
+  }
+
+  let reminder = "0";
+  while (originalNum !== add(multiply(quotient, divisor), reminder)) {
+    let idx = 0;
+    let temp = num[idx];
+
+    while (isSecondBigger(temp, divisor, true)) {
+      temp = temp + num[++idx];
+    }
+
+    let factor = 1;
+    while (!isSecondBigger(temp, multiply(divisor, factor.toString()), true)) {
+      factor++;
+    }
+    factor--;
+
+    quotient += factor.toString();
+    reminder = subtract(temp, multiply(divisor, factor.toString()));
+    num = reminder !== "0" ? reminder + num.slice(idx + 1) : num.slice(idx + 1);
+  }
+  return shouldReturnReminder ? [quotient, reminder] : quotient;
 }
 
 export function phraseAnalysis(str: string): string {
@@ -164,11 +193,15 @@ function calcString(str: string) {
     operators.splice(opIndex, 1);
   }
 
+  while (operators.includes("/")) {
+    let opIndex = operators.indexOf("/");
+    operands.splice(opIndex, 2, <string>divide(operands[opIndex], operands[opIndex + 1], true));
+    operators.splice(opIndex, 1);
+  }
+
   let result = operands[0];
   for (let i = 0; i < operators.length; i++) {
     result = operators[i] === "+" ? add(result, operands[i + 1]) : subtract(result, operands[i + 1]);
   }
   return result;
 }
-
-// What am I doing with my life !!?
