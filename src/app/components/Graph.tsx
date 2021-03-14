@@ -1,5 +1,6 @@
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import React, { ChangeEvent, FormEvent, useContext, useEffect, useRef, useState } from "react";
+import styled, { ThemeContext } from "styled-components";
+import { ToggleThemeContext } from "../providers/ToggleThemeProvider";
 
 // prettier-ignore
 const COLORS = [
@@ -11,12 +12,19 @@ const Graph = () => {
   const [inputVal, setInputVal] = useState("");
   const [currentGraphs, setCurrentGraphs] = useState<{ equation: string; color: string }[]>([]);
   const [currentScale, setCurrentScale] = useState(1);
+  const theme = useContext(ThemeContext);
+  const themeContext = useContext(ToggleThemeContext);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const clearCanvas = () => {
     setCurrentGraphs([]);
     drawGrid();
   };
+
+  useEffect(() => {
+    drawGrid();
+    currentGraphs.forEach((graph) => draw(graph.color, graph.equation));
+  }, [themeContext.theme]);
 
   const drawGrid = () => {
     // TODO: dark mode colors
@@ -25,7 +33,7 @@ const Graph = () => {
 
     ctx.arc(0, 0, 1.5, 0, Math.PI * 2);
     // clear canvas
-    ctx.strokeStyle = "#000000";
+    ctx.strokeStyle = theme.GraphGridColor;
     ctx.lineWidth = 0.2;
     ctx.clearRect(-200, -200, canvasRef.current.width, canvasRef.current.height);
     // vertical base
@@ -151,6 +159,7 @@ const InputWrapper = styled.div`
 
 const Input = styled.input`
   height: 19px;
+  background-color: transparent;
 `;
 
 export default Graph;

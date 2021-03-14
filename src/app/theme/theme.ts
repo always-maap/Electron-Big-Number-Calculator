@@ -8,7 +8,8 @@ export const dark = {
   clearButtonBackgroundColor: "#2E1A1F",
   clearButtonTextColor: "#F64A53",
   toggleThemeButtonBackgroundColor: "#EDEEEE",
-  advancedButtonBackgroundColor: "#3e5a99",
+  advancedButtonBackgroundColor: "#3E5A99",
+  GraphGridColor: "#EDEEEE",
 };
 
 export const light = {
@@ -21,5 +22,6 @@ export const light = {
   clearButtonBackgroundColor: "#F8EBED",
   clearButtonTextColor: "#F64A53",
   toggleThemeButtonBackgroundColor: "#212527",
-  advancedButtonBackgroundColor: "#3e5a99",
+  advancedButtonBackgroundColor: "#3E5A99",
+  GraphGridColor: "#212527",
 };
