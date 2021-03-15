@@ -10,7 +10,7 @@ type Props = {
 export const Button = styled.button<Props>`
   width: ${({ width }) => width || "100%"};
   background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.buttonsBackgroundColor};
-  color: ${({ textColor, theme }) => textColor || theme.buttonsTextColor};
+  color: ${({ textColor, theme }) => textColor || theme.textColor};
   font-size: 24px;
   height: 55px;
   border-radius: 25px;

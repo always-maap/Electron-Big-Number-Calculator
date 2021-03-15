@@ -27,13 +27,12 @@ const Graph = () => {
   }, [themeContext.theme]);
 
   const drawGrid = () => {
-    // TODO: dark mode colors
     const ctx = canvasRef.current.getContext("2d");
     ctx.beginPath();
 
     ctx.arc(0, 0, 1.5, 0, Math.PI * 2);
     // clear canvas
-    ctx.strokeStyle = theme.GraphGridColor;
+    ctx.strokeStyle = theme.graphGridColor;
     ctx.lineWidth = 0.2;
     ctx.clearRect(-200, -200, canvasRef.current.width, canvasRef.current.height);
     // vertical base
@@ -160,6 +159,7 @@ const InputWrapper = styled.div`
 const Input = styled.input`
   height: 19px;
   background-color: transparent;
+  border: 1px solid ${({ theme }) => theme.inputBorderColor};
 `;
 
 export default Graph;

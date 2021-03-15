@@ -1,7 +1,7 @@
 export const dark = {
   backgroundColor: "#18191B",
   buttonsBackgroundColor: "#212527",
-  buttonsTextColor: "#EDEEEE",
+  textColor: "#EDEEEE",
   operationsButtonBackgroundColor: "#FF9500",
   operationsButtonTextColor: "#EDEEEE",
   equalButtonBackgroundColor: "#30C972",
@@ -9,13 +9,14 @@ export const dark = {
   clearButtonTextColor: "#F64A53",
   toggleThemeButtonBackgroundColor: "#EDEEEE",
   advancedButtonBackgroundColor: "#3E5A99",
-  GraphGridColor: "#EDEEEE",
+  graphGridColor: "#EDEEEE",
+  inputBorderColor: "#EDEEEE",
 };
 
 export const light = {
   backgroundColor: "#F5F8F9",
   buttonsBackgroundColor: "#E8F0F4",
-  buttonsTextColor: "#212527",
+  textColor: "#212527",
   operationsButtonBackgroundColor: "#FF9500",
   operationsButtonTextColor: "#EDEEEE",
   equalButtonBackgroundColor: "#30C972",
@@ -23,5 +24,6 @@ export const light = {
   clearButtonTextColor: "#F64A53",
   toggleThemeButtonBackgroundColor: "#212527",
   advancedButtonBackgroundColor: "#3E5A99",
-  GraphGridColor: "#212527",
+  graphGridColor: "#212527",
+  inputBorderColor: "#212527",
 };

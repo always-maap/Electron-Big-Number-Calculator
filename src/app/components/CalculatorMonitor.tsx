@@ -22,7 +22,6 @@ const TextArea = styled.textarea<TextAreaProps>`
   height: 100%;
   width: 100%;
   font-size: ${({ inputVal }) => (inputVal.length < 10 ? "32px" : inputVal.length < 20 ? "26px" : "16px")};
-  color: ${({ theme }) => theme.buttonsTextColor};
   resize: none;
 `;
 

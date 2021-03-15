@@ -11,7 +11,12 @@ export const GlobalStyles = createGlobalStyle<any>`
     margin: 20px;
     padding: 0;
     font-family: sans-serif;
-    background-color: ${({ theme }) => theme.backgroundColor}; 
+    background-color: ${({ theme }) => theme.backgroundColor};
+    color: ${({ theme }) => theme.textColor}
+  }
+  
+  input, textarea { 
+    color: inherit;  
   }
 
   #root {
