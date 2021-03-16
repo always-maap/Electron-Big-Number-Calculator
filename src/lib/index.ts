@@ -150,6 +150,8 @@ function divide(num: string, divisor: string, shouldReturnReminder = false) {
   return shouldReturnReminder ? `q:${quotient}, r:${reminder}` : quotient;
 }
 
+export function integral(phrase: string, upNum: string, bottomNum: string) {}
+
 export function phraseAnalysis(str: string): string {
   // TODO: rewrite whole function with better logic and fewer if statements
   if (!str.match(/[+/*()-]/g)) return str;
