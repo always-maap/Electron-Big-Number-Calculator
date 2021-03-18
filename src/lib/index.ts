@@ -69,6 +69,7 @@ function subtract(num1: string, num2: string) {
 }
 
 function isSecondBigger(num1: string, num2: string, deepComparison = false) {
+  num1 = num1?.replace(/^0+/, "");
   // if num2 length is bigger than num1 we return early and should swap
   if (num2.length > num1.length) {
     return true;
@@ -118,7 +119,6 @@ function multiply(num1: string, num2: string) {
 }
 
 function divide(num: string, divisor: string, shouldReturnReminder = false) {
-  // TODO: fix 90/3 bug
   let originalNum = num;
   let quotient = "";
 
@@ -128,13 +128,25 @@ function divide(num: string, divisor: string, shouldReturnReminder = false) {
     return shouldReturnReminder ? `q:${quotient}, r:${originalNum}` : quotient;
   }
 
-  let reminder = "0";
+  let reminder = "";
   while (originalNum !== add(multiply(quotient, divisor), reminder)) {
     let idx = 0;
     let temp = num[idx];
+    console.log({ num, temp });
+    num = num.replace(/^0+/, "0");
+    while (isSecondBigger(temp, divisor, true) && idx < num.length - 1) {
+      if (temp === "0" && num[idx] === "0") {
+        quotient += "0";
+        num = num.slice(0);
+      }
 
-    while (isSecondBigger(temp, divisor, true)) {
-      temp = temp + num[++idx];
+      const nextDigit = num[++idx];
+      const numFromDigit = temp + nextDigit;
+      temp = numFromDigit;
+    }
+
+    if (!new RegExp(/([1-9])/).test(temp)) {
+      return (quotient += temp);
     }
 
     let factor = 1;
@@ -145,16 +157,28 @@ function divide(num: string, divisor: string, shouldReturnReminder = false) {
 
     quotient += factor.toString();
     reminder = subtract(temp, multiply(divisor, factor.toString()));
-    num = reminder !== "0" ? reminder + num.slice(idx + 1) : num.slice(idx + 1);
+    num = reminder + num.slice(idx + 1);
   }
+
   return shouldReturnReminder ? `q:${quotient}, r:${reminder}` : quotient;
+}
+
+// 94321 TODO: Bug
+
+function pow(base: string, exponent: string) {
+  if (exponent === "0") return "1";
+  let res = base;
+  for (let i = 1; i < +exponent; i++) {
+    res = multiply(res, base);
+  }
+  return res;
 }
 
 export function integral(phrase: string, upNum: string, bottomNum: string) {}
 
 export function phraseAnalysis(str: string): string {
   // TODO: rewrite whole function with better logic and fewer if statements
-  if (!str.match(/[+/*()-]/g)) return str;
+  if (!str.match(/[+^/*()-]/g)) return str;
   let strArr = str.split("").filter((i) => i !== " ");
 
   let startIdx = 0;
@@ -184,9 +208,8 @@ export function phraseAnalysis(str: string): string {
 }
 
 function calcString(str: string) {
-  // TODO: rewrite whole function with better logic
   const noWsStr = str.replace(/\s/g, "");
-  const operands = noWsStr.split(/[+/*-]/g);
+  const operands = noWsStr.split(/[+^/*-]/g);
   const operators = noWsStr.replace(/[\d]/g, "").split("");
 
   while (operators.includes("*")) {
@@ -195,9 +218,15 @@ function calcString(str: string) {
     operators.splice(opIndex, 1);
   }
 
+  while (operators.includes("^")) {
+    let opIndex = operators.indexOf("^");
+    operands.splice(opIndex, 2, pow(operands[opIndex], operands[opIndex + 1]));
+    operators.splice(opIndex, 1);
+  }
+
   while (operators.includes("/")) {
     let opIndex = operators.indexOf("/");
-    operands.splice(opIndex, 2, divide(operands[opIndex], operands[opIndex + 1], true));
+    operands.splice(opIndex, 2, divide(operands[opIndex], operands[opIndex + 1]));
     operators.splice(opIndex, 1);
   }
 
