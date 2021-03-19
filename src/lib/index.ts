@@ -172,7 +172,9 @@ function pow(base: string, exponent: string) {
   return res;
 }
 
-export function integral(phrase: string, upNum: string, bottomNum: string) {}
+export function integral(phrase: string, upNum: string, bottomNum: string) {
+  return "";
+}
 
 export function phraseAnalysis(str: string): string {
   // TODO: rewrite whole function with better logic and fewer if statements
