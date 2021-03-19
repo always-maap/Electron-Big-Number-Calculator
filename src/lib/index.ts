@@ -32,6 +32,8 @@ function add(num1: string, num2: string) {
 function subtract(num1: string, num2: string) {
   let difference = "";
 
+  if (num1 === "0" && num2 === "0") return "0";
+
   let isNegative = false; // indicator for negative sign
   if (isSecondBigger(num1, num2, true)) {
     [num2, num1] = [num1, num2];
@@ -69,7 +71,7 @@ function subtract(num1: string, num2: string) {
 }
 
 function isSecondBigger(num1: string, num2: string, deepComparison = false) {
-  num1 = num1?.replace(/^0+/, "");
+  num1 = num1.replace(/^0+/, "");
   // if num2 length is bigger than num1 we return early and should swap
   if (num2.length > num1.length) {
     return true;
@@ -91,6 +93,9 @@ function isSecondBigger(num1: string, num2: string, deepComparison = false) {
 
 function multiply(num1: string, num2: string) {
   // TODO: this is unbearable. write a clean code that humans can understand...
+  num1 = num1.replace(/^0+/, "");
+  num2 = num2.replace(/^0+/, "");
+
   if (num1 === "0" || num2 === "0") return "0";
 
   let product = "";
@@ -118,52 +123,45 @@ function multiply(num1: string, num2: string) {
   return product;
 }
 
-function divide(num: string, divisor: string, shouldReturnReminder = false) {
-  let originalNum = num;
+function divide(num: string, divisor: string, shouldReturnRemainder = false) {
+  const originalNum = num;
   let quotient = "";
+  let remainder = "";
 
-  const isDivisorBigger = isSecondBigger(num, divisor, true);
-  if (isDivisorBigger) {
+  // early return when divisor is bigger, the remainder should be the number and the quotient should be '0'
+  if (isSecondBigger(num, divisor, true)) {
     quotient = "0";
-    return shouldReturnReminder ? `q:${quotient}, r:${originalNum}` : quotient;
+    return shouldReturnRemainder ? `q:${quotient}, r:${originalNum}` : quotient;
   }
 
-  let reminder = "";
-  while (originalNum !== add(multiply(quotient, divisor), reminder)) {
-    let idx = 0;
-    let temp = num[idx];
-    console.log({ num, temp });
-    num = num.replace(/^0+/, "0");
-    while (isSecondBigger(temp, divisor, true) && idx < num.length - 1) {
-      if (temp === "0" && num[idx] === "0") {
-        quotient += "0";
-        num = num.slice(0);
+  let firstTime = true;
+  while (originalNum !== add(multiply(quotient, divisor), remainder)) {
+    let numFromDigit = "";
+    if (firstTime || remainder === "0") {
+      numFromDigit = num.slice(0, 1);
+    } else {
+      for (let i = 0; isSecondBigger(numFromDigit, divisor, true); i++) {
+        numFromDigit = num.slice(0, i);
       }
-
-      const nextDigit = num[++idx];
-      const numFromDigit = temp + nextDigit;
-      temp = numFromDigit;
-    }
-
-    if (!new RegExp(/([1-9])/).test(temp)) {
-      return (quotient += temp);
     }
 
     let factor = 1;
-    while (!isSecondBigger(temp, multiply(divisor, factor.toString()), true)) {
+    while (!isSecondBigger(numFromDigit, multiply(divisor, factor.toString()), true)) {
       factor++;
     }
     factor--;
 
     quotient += factor.toString();
-    reminder = subtract(temp, multiply(divisor, factor.toString()));
-    num = reminder + num.slice(idx + 1);
+    remainder = subtract(numFromDigit, multiply(divisor, factor.toString()));
+
+    num = remainder !== "0" ? remainder + num.slice(numFromDigit.length) : num.slice(numFromDigit.length);
+
+    firstTime = false;
   }
 
-  return shouldReturnReminder ? `q:${quotient}, r:${reminder}` : quotient;
+  quotient = quotient.replace(/^0+/, "");
+  return shouldReturnRemainder ? `q:${quotient}, r:${remainder}` : quotient;
 }
-
-// 94321 TODO: Bug
 
 function pow(base: string, exponent: string) {
   if (exponent === "0") return "1";
