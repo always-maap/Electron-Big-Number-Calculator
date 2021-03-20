@@ -18,13 +18,13 @@ const Integral = () => {
       <IntegralSign>
         ∫
         <form onSubmit={onSubmit}>
-          <Input value={upNum} onChange={(e) => setUpNum(e.target.value)} fixedWidth top={10} left={30} />
-          <Input value={phrase} onChange={(e) => setPhrase(e.target.value)} top={45} left={25} />
-          <Input value={bottomNum} onChange={(e) => setBottomNum(e.target.value)} fixedWidth bottom={0} left={15} />
+          <Input value={upNum} onChange={(e) => setUpNum(e.target.value)} fixedWidth top={-5} left={30} />
+          <Input value={phrase} onChange={(e) => setPhrase(e.target.value)} top={40} left={25} />
+          <Input value={bottomNum} onChange={(e) => setBottomNum(e.target.value)} fixedWidth bottom={-5} left={15} />
           <button type={"submit"} hidden />
         </form>
       </IntegralSign>
-      <Result>{result !== "" ? result : "Enter the values and press return"}</Result>
+      <Result isSubmitted={!!result}>{result !== "" ? result : "Enter the values and press return"}</Result>
     </Wrapper>
   );
 };
@@ -51,15 +51,24 @@ type InputProps = {
 };
 
 const Input = styled.input<InputProps>`
-  width: ${({ fixedWidth }) => (fixedWidth ? "30px" : "200px")};
+  width: ${({ fixedWidth }) => (fixedWidth ? "30px" : "300px")};
+  border: none;
+  border-bottom: 1px solid black;
+  height: 25px;
+  background: none;
   position: absolute;
   top: ${({ top }) => `${top}px`};
   bottom: ${({ bottom }) => `${bottom}px`};
   left: ${({ left }) => `${left}px`};
 `;
 
-const Result = styled.div`
+type ResultProps = {
+  isSubmitted: boolean;
+};
+
+const Result = styled.div<ResultProps>`
   display: flex;
+  text-decoration: underline;
   justify-content: center;
   align-items: center;
   font-size: 28px;
@@ -74,7 +83,7 @@ const Result = styled.div`
   background-size: 16px 4px, 16px 4px, 4px 16px, 4px 16px;
   border-radius: 5px;
   padding: 10px;
-  animation: dash 15s linear infinite;
+  animation: ${({ isSubmitted }) => `dash ${isSubmitted ? 15 : 120}s linear infinite`} ;  
 
   @keyframes dash {
     to {
