@@ -23,7 +23,8 @@ to check other existing commands please check out scripts block in package.json
     <img alt="calculator screenshot" width="300px" src="https://raw.githubusercontent.com/always-maap/Electron-Big-Number-Calculator/master/media/1.png" />
 </div>
 
-The Calculator support Big Number. 
+The Calculator support Big Number. It's only support parentheses. '(', ')'
+You can also calculate power of numbers but there is no button for that. you should type it '^'.
 
 > Note: to multiply use * between parentheses.
 ```
@@ -61,3 +62,17 @@ y = 2^3 // ❌
 y = sin(x) // ❌
 y = log(x) // ❌
 ```
+
+## Integral
+
+<div align="center">
+    <img alt="graph screenshot" width="500px" src="https://raw.githubusercontent.com/always-maap/Electron-Big-Number-Calculator/master/media/3.gif" />
+</div>
+
+The integral part use other methods to function. It basically replace x^a to x^a+1/a+1 and calculate x with boundaries then subtract them. it should gives us the approximately result. 
+
+> Note: Right now, every 'x' should have power. even x --> x^1. hmmmmm  
+
+## CAUTION ⚠️
+This project is part of Data-Structure exercise and written in short amount of time and not tested properly. It should be a bit buggy and featureless. 
+Also not tested on other than MacOS Big Sur. 

@@ -24,7 +24,7 @@ const Integral = () => {
           <button type={"submit"} hidden />
         </form>
       </IntegralSign>
-      <Result isSubmitted={!!result}>{result !== "" ? result : "Enter the values and press return"}</Result>
+      <Result isSubmitted={!!result}>{result !== "" ? result : "Enter the values then press return"}</Result>
     </Wrapper>
   );
 };
