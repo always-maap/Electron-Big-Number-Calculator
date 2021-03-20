@@ -8,7 +8,7 @@ import ToggleThemeButton from "./ToggleThemeButton";
 
 const AdvancedCalculator = () => {
   const theme = useContext(ThemeContext);
-  const [currentTab, setCurrentTab] = useState<"integral" | "graph">("integral");
+  const [currentTab, setCurrentTab] = useState<"integral" | "graph">("graph");
   const advancedContext = useContext(ToggleIsAdvancedContext);
 
   return (

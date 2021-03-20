@@ -70,29 +70,7 @@ function subtract(num1: string, num2: string) {
   return isNegative ? `-${difference}` : difference;
 }
 
-function isSecondBigger(num1: string, num2: string, deepComparison = false) {
-  num1 = num1.replace(/^0+/, "");
-  // if num2 length is bigger than num1 we return early and should swap
-  if (num2.length > num1.length) {
-    return true;
-  }
-
-  // deepComparison check which string as number is bigger
-  if (deepComparison && num2.length === num1.length) {
-    for (let i = 0; i < num2.length; i++) {
-      if (+num2[i] > +num1[i]) {
-        return true;
-      } else if (+num2[i] < +num1[i]) {
-        return false;
-      }
-    }
-  }
-
-  return false;
-}
-
 function multiply(num1: string, num2: string) {
-  // TODO: this is unbearable. write a clean code that humans can understand...
   num1 = num1.replace(/^0+/, "");
   num2 = num2.replace(/^0+/, "");
 
@@ -173,11 +151,21 @@ function pow(base: string, exponent: string) {
 }
 
 export function integral(phrase: string, upNum: string, bottomNum: string) {
-  return "";
+  // replace x^a with x^a+1/a+1
+  const analyzedPhrase = phrase.replace(/x\^(\d+)/g, (ـ, g2) => {
+    const val = +g2 + 1;
+    return `x^${+val}/${+val}`;
+  });
+
+  // calculate with up and bottom numbers
+  const phraseReplacedUp = phraseAnalysis(analyzedPhrase.replaceAll("x", upNum));
+  const phraseReplacedBottom = phraseAnalysis(analyzedPhrase.replaceAll("x", bottomNum));
+
+  // subtract the boundaries should give us the approximately result
+  return subtract(phraseReplacedUp, phraseReplacedBottom);
 }
 
 export function phraseAnalysis(str: string): string {
-  // TODO: rewrite whole function with better logic and fewer if statements
   if (!str.match(/[+^/*()-]/g)) return str;
   let strArr = str.split("").filter((i) => i !== " ");
 
@@ -198,12 +186,11 @@ export function phraseAnalysis(str: string): string {
   }
   const calculated = calcString(subStr);
   strArr.splice(startIdx, endIdx - startIdx + 1, calculated);
-  const thing = strArr.join("");
 
   if (str.indexOf("(") === -1) {
     return calcString(str);
   } else {
-    return phraseAnalysis(thing);
+    return phraseAnalysis(strArr.join(""));
   }
 }
 
@@ -235,4 +222,25 @@ function calcString(str: string) {
     result = operators[i] === "+" ? add(result, operands[i + 1]) : subtract(result, operands[i + 1]);
   }
   return result;
+}
+
+function isSecondBigger(num1: string, num2: string, deepComparison = false) {
+  num1 = num1.replace(/^0+/, "");
+  // if num2 length is bigger than num1 we return early and should swap
+  if (num2.length > num1.length) {
+    return true;
+  }
+
+  // deepComparison check which string as number is bigger
+  if (deepComparison && num2.length === num1.length) {
+    for (let i = 0; i < num2.length; i++) {
+      if (+num2[i] > +num1[i]) {
+        return true;
+      } else if (+num2[i] < +num1[i]) {
+        return false;
+      }
+    }
+  }
+
+  return false;
 }

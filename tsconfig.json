@@ -4,6 +4,7 @@
     "module": "commonjs",
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "target": "ESNext",
     "noImplicitAny": true,
     "sourceMap": true,
     "baseUrl": ".",
