@@ -6,13 +6,17 @@ type Props = {
   children: ReactNode;
 };
 
+type ThemeType = "dark" | "light";
+
 export const ToggleThemeContext = createContext<{ theme: "dark" | "light"; toggleTheme: () => void }>(undefined);
 
 const ToggleThemeProvider: FC<Props> = (props) => {
-  const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [theme, setTheme] = useState<ThemeType>(() => (window.localStorage.getItem("theme") as ThemeType) || "light");
 
   const toggleTheme = () => {
-    setTheme((prevState) => (prevState === "dark" ? "light" : "dark"));
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    window.localStorage.setItem("theme", newTheme);
   };
 
   return (
